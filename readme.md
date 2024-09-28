@@ -21,7 +21,7 @@ Before running the program, ensure you have the following installed:
 
 1. Clone the repository
 ```
-git clone <repository-url>
+git clone https://github.com/lighter3000/TaskTracker
 ```
 
 2. The `tasks.json` file will be created automatically after you `add` something after executing the program
