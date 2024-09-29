@@ -54,11 +54,6 @@ Here is a list of commands you can use in TaskTracker:
 * ``help``: Shows the list of available commands. 
 * ``quit or exit``: Exits the TaskTracker program.
 
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Project
 
 This project is from [roadmap.sh](https://roadmap.sh/projects/task-tracker)
