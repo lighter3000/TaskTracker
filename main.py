@@ -20,6 +20,16 @@ class TaskTracker(cmd.Cmd):
 
     # Method to add a new task; creates a tasks.json file if it doesn't exist
     def do_add(self, arg):
+        # Check how many arguments were made
+        if len(shlex.split(arg))>=2:
+            print("Too many arguments")
+            return
+
+        if len(shlex.split(arg))==0:
+            print("No arguments, please add a task in quotation marks")
+            return
+
+
         # Try to open tasks.json, create a new task list if it doesn't exist
         try:
             with open("tasks.json", "r") as f:
@@ -52,11 +62,24 @@ class TaskTracker(cmd.Cmd):
     # Method to update an existing task's description
     def do_update(self, arg):
         args = shlex.split(arg) # Split arguments into a list
-        print(args)
-        if len(args) != 2: # Check for sufficient arguments
+
+        if len(args) < 2: # Check for sufficient arguments
             print("Not enough arguments given")
             return
+
+        if len(args) > 2:
+            print("Too many arguments")
+            return
+
         id, new_task = args # Extract task ID and new description from arguments
+
+        if not id.isnumeric():
+            print("Id must be a number")
+            return
+
+        if new_task.isnumeric():
+            print("the task must be text")
+            return
 
         data = self.read_data() # Read the current task data
         task_found = False # Flag to check if task is found
@@ -78,6 +101,15 @@ class TaskTracker(cmd.Cmd):
 
     # Method to delete a task by its ID
     def do_delete(self, id):
+
+        if len(shlex.split(id))!=1:
+            print("Give only the given id wanted to be deleted")
+            return
+
+        if not id.isnumeric():
+            print("Id must be a number")
+            return
+
         data = self.read_data() # Read current task data
         task_found = False # Flag to check if task is found
 
@@ -97,16 +129,26 @@ class TaskTracker(cmd.Cmd):
         self.write_data(data) # Write updated data back to tasks.json
 
     def do_mark_in_progress(self, id):
+        if len(shlex.split(id))!=1:
+            print("Give only the given id wanted to be marked as in progress")
+            return
         self.mark(id, "in-progress") # Use mark method to update the status
 
 
     def do_mark_done(self, id):
+        if len(shlex.split(id))!=1:
+            print("Give only the given id wanted to be marked as done")
+            return
         self.mark(id, "done") # Use mark method to update the status
 
     # Helper method to update the status of a task
     def mark(self, id, status):
         if not status:
             status = "Unknown" # Default to unknown status if not provided
+
+        if not id.isnumeric():
+            print("Id must be a number")
+            return
 
         data = self.read_data() # Read current task data
         task_found = False # Flag to check if task is found
@@ -129,6 +171,11 @@ class TaskTracker(cmd.Cmd):
 
     # Method to list tasks based on their status
     def do_list(self, status):
+
+        if len(shlex.split(status)) >=2:
+            print("Too many arguments, use only an optional status or none")
+            return
+
         data = self.read_data() # Read current task data
 
         # Print tasks based on their status
